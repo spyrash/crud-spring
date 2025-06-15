@@ -1,5 +1,6 @@
-package CRUD.demo.product;
+package CRUD.demo.product.services;
 
+import CRUD.demo.product.Command;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

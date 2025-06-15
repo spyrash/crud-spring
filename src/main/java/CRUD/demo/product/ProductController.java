@@ -1,9 +1,14 @@
 package CRUD.demo.product;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import CRUD.demo.product.model.Product;
+import CRUD.demo.product.services.CreateProductService;
+import CRUD.demo.product.services.DeleteProductService;
+import CRUD.demo.product.services.GetProductService;
+import CRUD.demo.product.services.UpdateProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class ProductController {
@@ -46,7 +51,7 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<String> getProduct() {
+    public ResponseEntity<List<Product>> getProduct() {
       return getProductService.execute(null);
     }
 }
