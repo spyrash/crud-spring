@@ -31,22 +31,22 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<String> createProduct() {
-     return createProductService.execute();
+     return createProductService.execute(null);
     }
 
     @PutMapping
     public ResponseEntity<String> updateProduct() {
-        return updateProductService.execute();
+        return updateProductService.execute(null);
     }
 
     @DeleteMapping
     public ResponseEntity<String> deleteProduct() {
         // Assuming the product is deleted successfully the "NO_CONTENT" status is returned and the body is ALWAYS empty.
-        return deleteProductService.execute();
+        return deleteProductService.execute(null);
     }
 
     @GetMapping
     public ResponseEntity<String> getProduct() {
-      return getProductService.execute();
+      return getProductService.execute(null);
     }
 }
