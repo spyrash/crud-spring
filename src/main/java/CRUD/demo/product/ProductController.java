@@ -1,10 +1,9 @@
 package CRUD.demo.product;
 
 import CRUD.demo.product.model.Product;
-import CRUD.demo.product.services.CreateProductService;
-import CRUD.demo.product.services.DeleteProductService;
-import CRUD.demo.product.services.GetProductService;
-import CRUD.demo.product.services.UpdateProductService;
+import CRUD.demo.product.model.ProductDto;
+import CRUD.demo.product.model.UpdateProductCommand;
+import CRUD.demo.product.services.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,40 +17,51 @@ public class ProductController {
    // private CreateProductService createProductService;
 
     private final CreateProductService createProductService;
+    private final GetProductsService getProductsService;
     private final GetProductService getProductService;
     private final DeleteProductService deleteProductService;
     private final UpdateProductService updateProductService;
 
     public ProductController (
             CreateProductService createProductService,
+            GetProductsService getProductsService,
             GetProductService getProductService,
             DeleteProductService deleteProductService,
             UpdateProductService updateProductService
             ) {
         this.createProductService = createProductService;
+        this.getProductsService = getProductsService;
         this.getProductService = getProductService;
         this.deleteProductService = deleteProductService;
         this.updateProductService = updateProductService;
     }
 
-    @PostMapping
-    public ResponseEntity<String> createProduct() {
-     return createProductService.execute(null);
+    @PostMapping("/product")
+    public ResponseEntity<ProductDto> createProduct(@RequestBody Product product) {
+        return createProductService.execute(product);
     }
 
-    @PutMapping
-    public ResponseEntity<String> updateProduct() {
-        return updateProductService.execute(null);
+    @PutMapping("/product/{id}")
+    public ResponseEntity<ProductDto> updateProduct(@PathVariable Integer id, @RequestBody Product product) {
+        return updateProductService.execute(new UpdateProductCommand(id, product));
     }
 
-    @DeleteMapping
-    public ResponseEntity<String> deleteProduct() {
+    @DeleteMapping("/product/{id}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable Integer id) {
         // Assuming the product is deleted successfully the "NO_CONTENT" status is returned and the body is ALWAYS empty.
-        return deleteProductService.execute(null);
+        return deleteProductService.execute(id);
     }
 
-    @GetMapping
-    public ResponseEntity<List<Product>> getProduct() {
-      return getProductService.execute(null);
+    @GetMapping("/product")
+    public ResponseEntity<List<ProductDto>> getProduct() {
+      return getProductsService.execute(null);
     }
+
+    // new get mapping to get a product by ID
+
+    @GetMapping("/product/{id}")
+    public ResponseEntity<ProductDto> getProductById(@PathVariable Integer id) {
+        return getProductService.execute(id);
+    }
+
 }
