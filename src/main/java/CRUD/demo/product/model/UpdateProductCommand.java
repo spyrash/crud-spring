@@ -1,11 +1,6 @@
 package CRUD.demo.product.model;
 
-import CRUD.demo.product.Command;
-import CRUD.demo.product.ProductRepository;
 import lombok.Getter;
-import org.springframework.http.ResponseEntity;
-
-import java.util.Optional;
 
 @Getter
 public class UpdateProductCommand {
