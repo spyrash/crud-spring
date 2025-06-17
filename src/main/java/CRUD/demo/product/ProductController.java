@@ -1,5 +1,6 @@
 package CRUD.demo.product;
 
+import CRUD.demo.exceptions.AltraException;
 import CRUD.demo.product.model.Product;
 import CRUD.demo.product.model.ProductDto;
 import CRUD.demo.product.model.UpdateProductCommand;
@@ -62,6 +63,14 @@ public class ProductController {
     @GetMapping("/product/{id}")
     public ResponseEntity<ProductDto> getProductById(@PathVariable Integer id) {
         return getProductService.execute(id);
+    }
+
+    @ExceptionHandler(AltraException.class)
+    public ResponseEntity<String> handleException(Exception e) {
+        return ResponseEntity.status(500).body("got the other exception, no at controller level!");
+        // This work for all the routes inside this controller
+        // you can also use @ControllerAdvice to handle exceptions globally
+        // creating a class with @ControllerAdvice annotation and this method inside it
     }
 
 }

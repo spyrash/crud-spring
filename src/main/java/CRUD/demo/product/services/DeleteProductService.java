@@ -1,5 +1,6 @@
 package CRUD.demo.product.services;
 
+import CRUD.demo.exceptions.ProductNotFoundException;
 import CRUD.demo.product.Command;
 import CRUD.demo.product.ProductRepository;
 import CRUD.demo.product.model.Product;
@@ -26,6 +27,7 @@ public class DeleteProductService implements Command<Integer, Void> {
             // Assuming the product is deleted successfully the "NO_CONTENT" status is returned and the body is ALWAYS empty.
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
-        return null;
+//        throw new AltraException();
+        throw new ProductNotFoundException();
     }
 }
