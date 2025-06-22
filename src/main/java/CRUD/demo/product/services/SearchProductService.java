@@ -18,8 +18,9 @@ public class SearchProductService implements Query<String, List<ProductDto>> {
 
     @Override
     public ResponseEntity<List<ProductDto>> execute(String input) {
-        return ResponseEntity.ok(productRepository.findByNameContaining(input).
-                stream()
+        // findByNameOrDescriptionContaining to test it
+        return ResponseEntity.ok(productRepository.findByNameOrDescriptionContaining(input)
+                .stream()
                 .map(ProductDto::new)
                 .toList());
     }
