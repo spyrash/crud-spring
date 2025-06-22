@@ -5,6 +5,7 @@ import CRUD.demo.product.ProductRepository;
 import CRUD.demo.product.model.Product;
 import CRUD.demo.product.model.ProductDto;
 import CRUD.demo.product.model.UpdateProductCommand;
+import CRUD.demo.product.validators.ProductValidator;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,8 @@ public class UpdateProductService implements Command<UpdateProductCommand, Produ
         Optional<Product> productOptional = productRepository.findById(command.getId());
         if (productOptional.isPresent()) {
             Product product = command.getProduct();
+            // commented to use assertion on entity
+            //ProductValidator.execute(product);
             product.setId(command.getId());
             productRepository.save(product);
             return ResponseEntity.ok(new ProductDto(product));

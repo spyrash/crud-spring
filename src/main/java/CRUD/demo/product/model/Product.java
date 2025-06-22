@@ -1,6 +1,9 @@
 package CRUD.demo.product.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Entity
@@ -12,10 +15,13 @@ public class Product {
     @Column(name = "id")
     private Integer id;
 
+    @NotNull(message = "name is required validation by annotations")
     @Column(name = "name")
     private String name;
+    @Size(min = 20, message = "description must be at least 20 characters long validation by annotations")
     @Column(name = "description")
     private String description;
+    @PositiveOrZero(message = "price must be a positive number validation by annotations")
     @Column(name = "price")
     private Double price;
 

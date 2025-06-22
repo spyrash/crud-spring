@@ -65,12 +65,6 @@ public class ProductController {
         return getProductService.execute(id);
     }
 
-    @ExceptionHandler(AltraException.class)
-    public ResponseEntity<String> handleException(Exception e) {
-        return ResponseEntity.status(500).body("got the other exception, no at controller level!");
-        // This work for all the routes inside this controller
-        // you can also use @ControllerAdvice to handle exceptions globally
-        // creating a class with @ControllerAdvice annotation and this method inside it
-    }
+
 
 }
