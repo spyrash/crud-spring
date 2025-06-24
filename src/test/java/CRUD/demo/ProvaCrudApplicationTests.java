@@ -8,6 +8,7 @@ class ProvaCrudApplicationTests {
 
 	@Test
 	void contextLoads() {
+		//sanity check to ensure the application context loads correctly
 	}
 
 }
