@@ -1,7 +1,10 @@
 package CRUD.demo.mappings;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.List;
 
 @Entity
 @Table(name = "address")
@@ -19,4 +22,8 @@ public class Address {
 
     @Column(name="customer_id")
     private Integer customerId;
+
+    @ManyToMany(mappedBy = "addresses")
+    @JsonIgnore // Prevents infinite recursion during serialization since this is a circular reference
+    private List<Customer> customers;
 }
