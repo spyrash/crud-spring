@@ -3,6 +3,8 @@ package CRUD.demo.mappings;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Entity
 @Table(name = "customer")
 @Data
@@ -18,7 +20,7 @@ public class Customer {
     @Column(name = "last_name")
     private String lastName;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="address_id", referencedColumnName = "id")
-    private Address address;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="customer_id", referencedColumnName = "id")
+    private List<Address> addresses;
 }

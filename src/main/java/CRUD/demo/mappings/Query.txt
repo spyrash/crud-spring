@@ -17,23 +17,25 @@ INSERT INTO product(name,description,price) VALUES
 
 ******************OneToOne******************
 CREATE TABLE address (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    street VARCHAR(255),
-    city VARCHAR(255),
-    state VARCHAR(255)
+                         id SERIAL PRIMARY KEY ,
+                         street VARCHAR(255),
+                         city VARCHAR(255),
+                         state VARCHAR(255)
 );
 
 CREATE TABLE customer (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    first_name VARCHAR(255),
-    last_name VARCHAR(255),
-    address_id BIGINT,
-    FOREIGN KEY (address_id) REFERENCES address(id)
+                          id SERIAL PRIMARY KEY,
+                          first_name VARCHAR(255),
+                          last_name VARCHAR(255),
+                          address_id BIGINT,
+                          FOREIGN KEY (address_id) REFERENCES address(id)
 );
 
 INSERT INTO address (street, city, state) VALUES ('123 Main St', 'Cityville', 'CA');
 
 INSERT INTO customer (first_name, last_name, address_id) VALUES ('John', 'Doe', 1);
+
+
 
 
 
@@ -56,8 +58,8 @@ INSERT INTO address (street, city, state, customer_id) VALUES
 
 
 
-ALTER TABLE customer
-DROP FOREIGN KEY customer_ibfk_1;
+alter table customer
+    drop constraint customer_address_id_fkey;
 
 ALTER TABLE customer
 DROP COLUMN address_id;

@@ -16,4 +16,7 @@ public class Address {
 
     @Column(name = "city")
     private String city;
+
+    @Column(name="customer_id")
+    private Integer customerId;
 }
