@@ -7,6 +7,7 @@ import CRUD.demo.product.model.Product;
 import CRUD.demo.product.model.ProductDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,7 @@ public class GetProductService implements Query<Integer, ProductDto> {
     }
 
     @Override
+    @Cacheable("productCache")
     public ResponseEntity<ProductDto> execute(Integer productId) {
         logger.info("executing{} with input: {}", getClass(), productId);
         Optional<Product> productOptional = productRepository.findById(productId);
