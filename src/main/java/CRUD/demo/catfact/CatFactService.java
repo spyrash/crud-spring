@@ -1,15 +1,20 @@
 package CRUD.demo.catfact;
 
 import CRUD.demo.product.Query;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import com.ctc.wstx.shaded.msv_core.util.Uri;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
 
 @Service
 public class CatFactService implements Query<Integer, CatFactDto> {
 
     private final RestTemplate restTemplate;
+    private final String url = "https://catfact.ninja";
+    private final String MAX_LENGTH = "max_length";
 
     public CatFactService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
@@ -17,12 +22,24 @@ public class CatFactService implements Query<Integer, CatFactDto> {
 
     @Override
     public ResponseEntity<CatFactDto> execute(Integer input) {
-        // getForObject is a get request
-        CatFactResponse catFactResponse = restTemplate.getForObject("https://catfact.ninja/fact?max_length=" + input, CatFactResponse.class);
-        CatFactDto catFactDto = null;
-        if (catFactResponse != null) {
-            catFactDto = new CatFactDto(catFactResponse.getFact());
+        // sets up our URL with the query parameter
+        URI uri = UriComponentsBuilder.fromHttpUrl(url)
+                .queryParam(MAX_LENGTH, input)
+                .build()
+                .toUri();
+
+        //headers
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Accept", "application/json");
+
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        try {
+            ResponseEntity<CatFactResponse> response = restTemplate
+                    .exchange(uri, HttpMethod.GET, entity, CatFactResponse.class);
+            CatFactDto catFactDto = new CatFactDto(response.getBody().getFact());
+            return ResponseEntity.ok(catFactDto);
+        } catch (Exception e) {
+            throw new RuntimeException("Cat Facts API is down.");
         }
-        return  ResponseEntity.ok(catFactDto);
     }
 }
