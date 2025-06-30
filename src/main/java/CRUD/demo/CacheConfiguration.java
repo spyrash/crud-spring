@@ -24,10 +24,10 @@ public class CacheConfiguration {
         return manager;
     }
 
-    @CacheEvict(value = "productCache", allEntries = true)
-    @Scheduled(fixedRate = 7000, initialDelay = 0) // every 7 seconds
-    public void evictProductCache() {
-        System.out.println("evicting product cache...");
-        System.out.println("done!");
-    }
+   // @CacheEvict(value = "productCache", allEntries = true)
+   // @Scheduled(fixedRate = 7000, initialDelay = 0) // every 7 seconds
+   // public void evictProductCache() {
+   //     System.out.println("evicting product cache...");
+   //     System.out.println("done!");
+   // }
 }
