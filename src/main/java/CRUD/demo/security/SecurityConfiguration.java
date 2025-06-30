@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.User;
@@ -15,6 +16,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
+@EnableMethodSecurity
 public class SecurityConfiguration {
 
     // this configuration overrides the default security configuration in the application.properties file without it,
@@ -25,12 +27,14 @@ public class SecurityConfiguration {
                 .withUsername("admin")
                 .authorities("BASIC", "SPECIAL")
                 .password(passwordEncoder.encode("1"))   // spring boot won't let you use raw text for passwords
+                .roles("superuser")
                 .build();
 
         UserDetails user = User
                 .withUsername("user")
                 .authorities("BASIC")
                 .password(passwordEncoder.encode("2"))
+                .roles("basicuser")
                 .build();
 
         return new InMemoryUserDetailsManager(admin, user);
@@ -47,11 +51,12 @@ public class SecurityConfiguration {
                 // allows for POST, PUT, DELETE mappings with authentication
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> {
-                    authorize.requestMatchers("/open").permitAll();
-                    authorize.requestMatchers("/closed").authenticated();
-                    authorize.requestMatchers(HttpMethod.POST, "/product").authenticated();
-                    authorize.requestMatchers(HttpMethod.GET, "/special").hasAuthority("SPECIAL");
-                    authorize.requestMatchers(HttpMethod.GET, "/basic").hasAnyAuthority("BASIC", "SPECIAL");
+                    authorize.anyRequest().authenticated();
+                  //  authorize.requestMatchers("/open").permitAll();
+                  //  authorize.requestMatchers("/closed").authenticated();
+                  //  authorize.requestMatchers(HttpMethod.POST, "/product").authenticated();
+                  //  authorize.requestMatchers(HttpMethod.GET, "/special").hasAuthority("SPECIAL");
+                  //  authorize.requestMatchers(HttpMethod.GET, "/basic").hasAnyAuthority("BASIC", "SPECIAL");
                 })
                 .httpBasic(Customizer.withDefaults())
                 .build();
