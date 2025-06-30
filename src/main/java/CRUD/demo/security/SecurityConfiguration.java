@@ -23,10 +23,17 @@ public class SecurityConfiguration {
     public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
         UserDetails admin = User
                 .withUsername("admin")
+                .authorities("BASIC", "SPECIAL")
                 .password(passwordEncoder.encode("1"))   // spring boot won't let you use raw text for passwords
                 .build();
 
-        return new InMemoryUserDetailsManager(admin);
+        UserDetails user = User
+                .withUsername("user")
+                .authorities("BASIC")
+                .password(passwordEncoder.encode("2"))
+                .build();
+
+        return new InMemoryUserDetailsManager(admin, user);
     }
 
     @Bean
@@ -43,8 +50,11 @@ public class SecurityConfiguration {
                     authorize.requestMatchers("/open").permitAll();
                     authorize.requestMatchers("/closed").authenticated();
                     authorize.requestMatchers(HttpMethod.POST, "/product").authenticated();
+                    authorize.requestMatchers(HttpMethod.GET, "/special").hasAuthority("SPECIAL");
+                    authorize.requestMatchers(HttpMethod.GET, "/basic").hasAnyAuthority("BASIC", "SPECIAL");
                 })
                 .httpBasic(Customizer.withDefaults())
                 .build();
+        // video 9:11
     }
 }

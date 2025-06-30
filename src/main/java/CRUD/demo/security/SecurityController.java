@@ -20,4 +20,13 @@ public class SecurityController {
         return "CLOSED";
     }
 
+    @GetMapping("/special")
+    public String special(){
+        return "SPECIAL";
+    }
+
+    @GetMapping("/basic")
+    public String basic() {
+        return "BASIC";
+    }
 }
