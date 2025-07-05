@@ -85,3 +85,9 @@ alter table address
 
 ALTER TABLE address
     DROP COLUMN customer_id;
+
+
+CREATE TABLE custom_user (
+                             username VARCHAR(50) PRIMARY KEY,
+                             password VARCHAR(255) NOT NULL
+);
