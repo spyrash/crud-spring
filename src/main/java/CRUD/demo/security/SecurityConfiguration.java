@@ -33,6 +33,7 @@ public class SecurityConfiguration {
                 // allows for POST, PUT, DELETE mappings with authentication
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> {
+                    authorize.requestMatchers("/login").permitAll();
                     // have to let user create new without authentication
                     authorize.requestMatchers("/createnewuser").permitAll();
 
