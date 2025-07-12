@@ -25,7 +25,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         // header: Authorization Bearer [jwt]
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            // chops off bearer and space
+            // chops off bearer and spaceF
             token = authHeader.substring(7);
         }
         if (token != null && JwtUtil.isTokenValid(token)) {
